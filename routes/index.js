@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var quizController = require('../controllers/quiz_controller');
+var commentController = require('../controllers/comment_controller');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -27,5 +28,9 @@ router.put('/quizes/:quizId(\\d+)',				quizController.update);
 
 //encapsulamos el recurso REST DELETE, en la peticion POST para que no se cacheé
 router.delete('/quizes/:quizId(\\d+)',			quizController.destroy);
+
+//Interfaces REST del controlador comment_controller
+router.get('/quizes/:quizId(\\d+)/comments/new',		commentController.new);
+router.post('/quizes/:quizId(\\d+)/comments',		commentController.create);
 
 module.exports = router;

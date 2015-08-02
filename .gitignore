@@ -23,6 +23,9 @@ $RECYCLE.BIN/
 #ignoramos el fichero de variables de entorno
 .env
 
+#ignoramos las dependencias, no hace falta desplegarlas ni subirlas al cvs
+node_modules
+
 # Windows shortcuts
 *.lnk
 
