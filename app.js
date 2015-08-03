@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var partials = require('express-partials'); 
 var methodOverrride = require('method-override');
+var session = require('express-session');
 
 var routes = require('./routes/index');
 
@@ -24,9 +25,23 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded()); //deprecado, equivale a extend: true
 app.use(bodyParser.urlencoded({ extended: true })); //no aparece el warning de middleware deprecado
-app.use(cookieParser());
+app.use(cookieParser('Quiz 2015')); //Semilla para generar la sesion
+app.use(session());
 app.use(methodOverrride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Helpers dinamicos:
+app.use(function(req, res, next) {
+	//guardar el path en session.redir para redireccionar a la vista anterior
+	if(!req.path.match(/\/login|\/logout/)) {
+		req.session.redir=req.path;
+	}
+	
+	// Hacer visible la session en las vistas
+	res.locals.session = req.session;
+	next();
+
+});
 
 app.use('/', routes); 
 
