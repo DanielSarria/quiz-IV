@@ -27,16 +27,16 @@ router.get('/logout',		sessionController.destroy);	// destruir session
 router.get('/quizes', 							quizController.index);
 router.get('/quizes/:quizId(\\d+)', 			quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer',		quizController.answer);
-router.get('/quizes/new',						quizController.new);
-router.post('/quizes/create',					quizController.create);
-router.get('/quizes/:quizId(\\d+)/edit',		quizController.edit);
-router.put('/quizes/:quizId(\\d+)',				quizController.update);
+router.get('/quizes/new',						sessionController.loginRequired, quizController.new);
+router.post('/quizes/create',					sessionController.loginRequired, quizController.create);
+router.get('/quizes/:quizId(\\d+)/edit',		sessionController.loginRequired, quizController.edit);
+router.put('/quizes/:quizId(\\d+)',				sessionController.loginRequired, quizController.update);
 
 //encapsulamos el recurso REST DELETE, en la peticion POST para que no se cacheé
-router.delete('/quizes/:quizId(\\d+)',			quizController.destroy);
+router.delete('/quizes/:quizId(\\d+)',			sessionController.loginRequired, quizController.destroy);
 
 //Interfaces REST del controlador comment_controller
 router.get('/quizes/:quizId(\\d+)/comments/new',		commentController.new);
-router.post('/quizes/:quizId(\\d+)/comments',		commentController.create);
+router.post('/quizes/:quizId(\\d+)/comments',			commentController.create);
 
 module.exports = router;
