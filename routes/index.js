@@ -16,7 +16,8 @@ router.get('/author', function(req, res) {
 });
 
 // Autoload de comandos si existe el parametro :quizId
-router.param('quizId',quizController.load);
+router.param('quizId',quizController.load); // autoload :quizId
+router.param('commentId',commentController.load); // autoload :commentId
 
 // Definicion de rutas de sesion
 router.get('/login',		sessionController.new); 	// formulario login
@@ -38,5 +39,8 @@ router.delete('/quizes/:quizId(\\d+)',			sessionController.loginRequired, quizCo
 //Interfaces REST del controlador comment_controller
 router.get('/quizes/:quizId(\\d+)/comments/new',		commentController.new);
 router.post('/quizes/:quizId(\\d+)/comments',			commentController.create);
+//En el curso usamos GET, pero lo correcto para seguir la metodologia REST deberiamos usar route.put(...)
+//por que vamos a actualizar una columna de la tabla comentarios.
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish', sessionController.loginRequired, commentController.publish);
 
 module.exports = router;
