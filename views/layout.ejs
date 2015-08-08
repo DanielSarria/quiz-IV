@@ -39,6 +39,13 @@
 					<% } %>
 				</span>
 			<% } %>
+			
+			<% if(session.sessionCaducada) {%>
+				<span id='WarningSession'>
+					Alerta: <br/>
+						<span>Tu sesión ha expirado</span><br/>
+				</span>
+			<% } %>
 				
 			<%- body %>
 		</section>
