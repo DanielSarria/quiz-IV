@@ -49,8 +49,8 @@ var Comment = sequelize.import(comment_path);
 //relacion de la tabla quiz con comment del tipo 1-N
 //Sequelize añade la relaciona la tabla comment la columna QuizId
 //como clave foranea para poder relacionar las dos tablas. 
-Comment.belongsTo(Quiz); //1
-Quiz.hasMany(Comment);   //N
+Comment.belongsTo(Quiz, { onDelete: 'cascade'}); //1
+Quiz.hasMany(Comment, { onDelete: 'cascade'});   //N
 
 exports.Quiz = Quiz; // exportar definicion de tabla Quiz
 exports.Comment = Comment; // Export la definicion de la tabla Comment
