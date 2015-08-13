@@ -21,7 +21,8 @@ $RECYCLE.BIN/
 *.sqlite
 
 #ignoramos el fichero de variables de entorno
-.env
+#No lo voy a ignorar, por que al bajarme la aplicacion, tendria que configurarlo de nuevo.
+#.env
 
 #ignoramos las dependencias, no hace falta desplegarlas ni subirlas al cvs
 node_modules

@@ -67,6 +67,7 @@ exports.new = function(req,res) {
 
 // POST /quizes/create
 exports.create = function(req,res) {
+	req.body.quiz.UserId = req.session.user.id;
 	var quiz=models.Quiz.build( req.body.quiz );
 	//guarda en DB los campos pregunta y respuesta de quiz solamente
 	//para evitar ataques desde POST que añadan campos adicionales a la tabla.
@@ -85,7 +86,7 @@ exports.create = function(req,res) {
 			}else{
 				quiz.save(
 					{
-						fields: ["pregunta","respuesta","tema"]
+						fields: ["pregunta","respuesta","tema","UserId"]
 					}
 					).then(function(){
 						res.redirect('/quizes');

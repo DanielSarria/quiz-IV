@@ -41,6 +41,9 @@ var Quiz = sequelize.import(path.join(__dirname,'quiz'));
 var comment_path = path.join(__dirname, 'comment');
 var Comment = sequelize.import(comment_path);
 
+// Importar definicion de la tabla User
+var User = sequelize.import(path.join(__dirname, 'user'));
+
 //Relaciones tablas
 // 1-a-1: belongsTo(...modelo...) 	     - A - 	  hasOne(...modelRelacion...)
 // 1-a-N: belongsTo(...modelo...) 		 - A - 	  hasMany(...modelRelacion...)
@@ -52,40 +55,66 @@ var Comment = sequelize.import(comment_path);
 Comment.belongsTo(Quiz, { onDelete: 'cascade'}); //1
 Quiz.hasMany(Comment, { onDelete: 'cascade'});   //N
 
+//Relacion User (1) - Quiz (N)
+Quiz.belongsTo(User, {onDelete: 'cascade'});
+User.hasMany(Quiz, {onDelete: 'cascade'});
+
+//Exportar tablas
 exports.Quiz = Quiz; // exportar definicion de tabla Quiz
 exports.Comment = Comment; // Export la definicion de la tabla Comment
+exports.User = User;
 
 // sequelize.sync() Crea e inicializa la tabla de preguntas en BD
 sequelize.sync().then(function() {
 	// then(..) Ejecuta el manejador una vez creada la tabla
-	Quiz.count().then(function(count){
-		if(count === 0) { //la tabla se inicializa solo si esta vacia
-			Quiz.create({
-				pregunta: 'Autor de la escultura El David',
-				respuesta: 'Miguel Angel',
-				tema: 'humanidades'
+	User.count().then(function (count) {
+		if(count === 0) {
+			User.bulkCreate(
+				[
+					{username: 'admin', password: '1234', isAdmin: true},
+					{username: 'pepe', password: '5678'} // por defecto isAdmin es false a si que no se le pasa como parametro.
+				]
+			).then(function() { 
+				console.log('Base de datos (Tabla User) inicializada');
+				Quiz.count().then(function(count){
+					if(count === 0) { //la tabla se inicializa solo si esta vacia
+						Quiz.bulkCreate(
+							[
+								{
+									pregunta: 'Autor de la escultura El David',
+									respuesta: 'Miguel Angel',
+									tema: 'humanidades',
+									UserId: 2	
+								},
+								{
+									pregunta: 'Capital de Portugal',
+									respuesta: 'Lisboa',
+									tema: 'otro',
+									UserId: 2	
+								},
+								{
+									pregunta: 'Actor que interpreta al décimo Doctor Who',
+									respuesta: 'David Tennant',
+									tema: 'ocio',
+									UserId: 1	
+								},
+								{
+									pregunta: 'La estrella más cercana a la tierra',
+									respuesta: 'Sol',
+									tema: 'ciencia',
+									UserId: 2	
+								},
+								{
+									pregunta: '¿Qué significan las siglas IA?',
+									respuesta: 'Inteligencia Artificial',
+									tema: 'tecnologia',
+									UserId: 2	
+								}
+							]
+						).then(function(){console.log('Base de datos inicializada');});
+					}
+				});
 			});
-			Quiz.create({
-				pregunta: 'Capital de Portugal',
-				respuesta: 'Lisboa',
-				tema: 'otro'
-			});
-			Quiz.create({
-				pregunta: 'Actor que interpreta al décimo Doctor Who',
-				respuesta: 'David Tennant',
-				tema: 'ocio'
-			});
-			Quiz.create({
-				pregunta: 'La estrella más cercana a la tierra',
-				respuesta: 'Sol',
-				tema: 'ciencia'
-			});			
-			Quiz.create({
-				pregunta: '¿Qué significan las siglas IA?',
-				respuesta: 'Inteligencia Artificial',
-				tema: 'tecnologia'
-			})			
-			.then(function(){console.log('Base de datos inicializada');});
 		}
 	});
 });

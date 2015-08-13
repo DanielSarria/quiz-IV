@@ -1,5 +1,5 @@
 {
-  "name": "quiz",
+  "name": "quiz-IV",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -24,7 +24,7 @@
     "morgan": "~1.3.0",
     "pg": "~4.1.1",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^2.0.0",
+    "sequelize": "^2.0.0-rc4",
     "serve-favicon": "~2.1.3"
   }
 }
