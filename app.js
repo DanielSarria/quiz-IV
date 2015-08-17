@@ -45,6 +45,7 @@ app.use(function(req, res, next) {
 	next();
 });
 
+
 // Gestion de la duracion de la session. Si el servidor tarda mas de 2 minutos en recibir una peticion http, la session caduca.
 // NOTA: Tenemos un redirect automatico en login y logout. Por ejemplo, cuando clickamos en logout, y pasamos por los middlewares de apps, seguimos
 // manteniendo la session, aun no se ha destruido. Pero como en logout hacemos una redireccion al recurso anterior, entonces volvemos a pasar
