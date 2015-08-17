@@ -36,7 +36,7 @@ app.use(function(req, res, next) {
 	
 	//inicializo el path de la sesion, para corregir el bug localhost:5000/login Ya que al logarse, antes se producia un error que no encontraba el path
 	if(!req.session.redir) req.session.redir="/";
-	if(!req.path.match(/\/login|\/logout/)) {
+	if(!req.path.match(/\/login|\/logout|\/user/)) {
 		req.session.redir=req.path;
 	}
 	
